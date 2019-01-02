@@ -17,6 +17,8 @@
 
 #pragma once
 
+#include <cstdlib>
+
 #include "creature.hpp"
 
 class ComputerController
@@ -32,22 +34,23 @@ public:
         bool choosing = true;
         while(choosing)
         {
-            
-        }
-    }
+            int indicatedAction = std::rand() % 104;
 
-    void doAction()
-    {
-        switch(selectedAction)
-        {
-            case attack:
-                break;
-
-            case defend:
-                break;
-
-            case heal:
-                break;
+            if(indicatedAction == 94)
+            {
+                selectedAction = attack;
+                choosing = false;
+            }
+            else if(indicatedAction == 100)
+            {
+                selectedAction = defend;
+                choosing = false;
+            }
+            else if(indicatedAction == 104)
+            {
+                selectedAction = heal;
+                choosing = false;
+            }
         }
     }
 
@@ -56,8 +59,8 @@ public:
         opponentCreature = opponentCreature_;
     }
 
+    Actions selectedAction;
+
 private:
     Creature opponentCreature;
-
-    Actions selectedAction;
 };

@@ -41,22 +41,7 @@ public:
 
             int indicatedAction = tolower(action[0]);
             selectedAction = static_cast<Actions>(indicatedAction);
-
-        }
-    }    
-
-    void doAction()
-    {
-        switch(selectedAction)
-        {
-            case attack:
-                break;
-
-            case defend:
-                break;
-
-            case heal:
-                break;
+            choosing = false;
         }
     }
 
@@ -65,10 +50,11 @@ public:
         playerCreature = playerCreature_;
     }
 
+    Actions selectedAction;
+
 private:
     Creature playerCreature;
     
     std::string action;
-    Actions selectedAction;
 
 };

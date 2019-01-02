@@ -25,6 +25,7 @@ public:
     DiceSet()
     {
         d6 = 6;
+        d10 = 10;
         d20 = 20;
         
     }
@@ -34,6 +35,11 @@ public:
         return std::rand() % d6;
     }
 
+    int rollD10()
+    {
+        return std::rand() % d10;
+    }
+
     int rollD20()
     {
         return std::rand() % d20; 
@@ -41,6 +47,7 @@ public:
 
 private:
     int d6;
+    int d10;
     int d20;
 
 

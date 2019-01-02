@@ -18,6 +18,9 @@
 #pragma once
 
 #include <string>
+#include <iostream>
+
+#include "dice.hpp"
 
 enum Actions
 {
@@ -42,16 +45,52 @@ public:
         strength(strength_),
         initiative(initiativeBonus)
     {
-
+        baseStrength = strength;
     }
 
     void takeDamage(int damageTaken)
     {
         health -= damageTaken;
+
+        if(health <= 0)
+        {
+            alive = false;
+        }
+    }
+
+    int dealDamage(int d6Result)
+    {
+        return d6Result + attack;
+    }
+
+    int defendSelf(int d6Result)
+    {
+        std::cout << name << " defense rose by " << d6Result << "!\n";
+        strength += d6Result; 
+    }
+
+    void resetStrength()
+    {
+        strength = baseStrength;
+    }
+
+    void attemptAttack(Creature targetCreature, int d6Result)
+    {
+        if(targetCreature.strength > attack)
+        {
+            std::cout << name << " misses!\n";
+            return;
+        }
+
+        int successfulHit = dealDamage(d6Result);
+        std::cout << name << " deals " << successfulHit << " damage to " << targetCreature.name << "!\n";
+
+        targetCreature.takeDamage(successfulHit);
     }
 
     void heal(int hpHealed)
     {
+        std::cout << name << " healed " << hpHealed << "HP!\n";
         health += hpHealed;
     }
 
@@ -60,7 +99,7 @@ public:
         return alive;
     }
 
-    void setIntitiative(int initiative_)
+    void setIntitiative(int initiative_) //2d20 result
     {
         initiative += initiative_;
     }
@@ -71,13 +110,17 @@ public:
     }
 
     std::string name;
+    int strength;
 
 private:
     bool alive;
 
     int health;
-    int strength;
+
+    int baseStrength;
+
     int attack;    
     int initiative;
+
 };
 

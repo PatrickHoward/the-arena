@@ -50,8 +50,20 @@ public:
 
         do
         {
-            player.getAction();
 
+            player.getAction();
+            opponent.getAction();
+
+            if(playerCreature.checkInitiative() > opponentCreature.checkInitiative())
+            {
+                playTurn(playerCreature, opponentCreature, player.selectedAction);
+                playTurn(opponentCreature, playerCreature, opponent.selectedAction);
+            }
+            else if(opponentCreature.checkInitiative() > playerCreature.checkInitiative())
+            {
+                playTurn(opponentCreature, playerCreature, opponent.selectedAction);
+                playTurn(playerCreature, opponentCreature,player.selectedAction);
+            }
 
 
         }while(playerCreature.isAlive() && opponentCreature.isAlive());
@@ -71,6 +83,26 @@ public:
 
 
 private:
+    void playTurn(Creature& activeCreatrue, Creature& targetCreature, Actions selectedAction)
+    {
+        int activeD6Roll = dice.rollD6();
+
+        targetCreature.resetStrength();
+        switch(selectedAction)
+        {
+            case attack:
+                activeCreatrue.attemptAttack(targetCreature, activeD6Roll);
+                break;
+            case defend:
+                activeCreatrue.defendSelf(activeD6Roll);
+                break;
+            case heal:
+                activeCreatrue.heal(activeD6Roll);
+                break;
+        }
+    }
+
+
     DiceSet dice;
 
     Creature playerCreature;
