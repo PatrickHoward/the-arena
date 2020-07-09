@@ -74,7 +74,7 @@ public:
         strength = baseStrength;
     }
 
-    void attemptAttack(Creature targetCreature, int d6Result)
+    void attemptAttack(Creature& targetCreature, int d6Result)
     {
         if(targetCreature.strength > attack)
         {
